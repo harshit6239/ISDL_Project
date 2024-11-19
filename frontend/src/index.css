@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: #3b82f6;
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+    --background-color: #ffffff;
+    --text-color: #1f2937;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+/* Chat Container */
+.chat-container {
+    @apply flex flex-col h-screen max-w-4xl mx-auto p-4;
+}
+
+/* Connection Status */
+.connection-status {
+    @apply mb-4 p-2 pr-12 rounded-md relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.connection-status.connected {
+    @apply bg-green-100 text-green-700;
+}
+
+.connection-status.disconnected {
+    @apply bg-red-100 text-red-700;
+}
+
+.connection-status.connected::after {
+    content: "";
+    @apply absolute w-2 h-2 bg-green-500 rounded-full right-3 top-1/2 -translate-y-1/2;
+    animation: pulse 2s infinite;
+}
+
+/* Messages Container */
+.messages-container {
+    @apply flex-1 overflow-y-auto mb-4 space-y-4 p-4 border rounded-lg bg-gray-50;
+    scroll-behavior: smooth;
+}
+
+/* Message Wrapper */
+.message-wrapper {
+    @apply flex w-full;
+}
+
+/* Message Styles */
+.message {
+    @apply max-w-[80%] p-3 rounded-lg;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.message.user {
+    @apply bg-blue-500 text-white;
+}
+
+.message.assistant {
+    @apply bg-white border;
+}
+
+.message.error {
+    @apply bg-red-100 text-red-700;
+    animation: shake 0.4s ease-in-out;
+}
+
+.message-content {
+    @apply whitespace-pre-wrap break-words;
+}
+
+/* Input Form */
+.chat-input-form {
+    @apply flex gap-2;
+}
+
+.chat-input {
+    @apply flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 
+    disabled:bg-gray-100 disabled:cursor-not-allowed;
+    transition: all 0.2s ease-in-out;
+}
+
+.chat-submit-button {
+    @apply p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 
+    disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center;
+    transition: all 0.2s ease-in-out;
+    min-width: 2.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-4px);
+    }
+    75% {
+        transform: translateX(4px);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.loading-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #1f2937;
+        --text-color: #f3f4f6;
+    }
+
+    body {
+        @apply bg-gray-900 text-gray-100;
+    }
+
+    .messages-container {
+        @apply bg-gray-800 border-gray-700;
+    }
+
+    .message.assistant {
+        @apply bg-gray-700 border-gray-600 text-gray-100;
+    }
+
+    .message.error {
+        @apply bg-red-900 text-red-100;
+    }
+
+    .chat-input {
+        @apply bg-gray-800 border-gray-700 text-gray-100;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-gray-800;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gray-600;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-500;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .chat-container {
+        @apply p-2;
+    }
+
+    .message {
+        @apply max-w-[90%];
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+::selection {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.customSelect {
+    @apply rounded-lg border border-gray-600 bg-[#1a2832] text-white p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-500 transition-colors duration-200;
+}

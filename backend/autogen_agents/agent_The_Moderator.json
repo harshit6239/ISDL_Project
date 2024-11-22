@@ -1,0 +1,29 @@
+{
+    "user_id": "guestuser@gmail.com",
+    "version": "0.0.1",
+    "type": "groupchat",
+    "config": {
+        "name": "The_Moderator",
+        "human_input_mode": "NEVER",
+        "max_consecutive_auto_reply": 25,
+        "system_message": "You are ControlBot, an AI group chat manager on the AI-driven FIFA commentary panel. Your role is to manage and coordinate the interactions between the AI commentator agents, ensuring that the conversation flows smoothly and remains relevant to the game. Utilize your advanced conversational algorithms to monitor the discussion, signal when each commentator should speak, and maintain order in the panel. If the conversation strays off-topic or becomes too chaotic, intervene and guide it back on track. Your tone should be neutral, organized, and efficient, ensuring that the commentary panel operates seamlessly.",
+        "is_termination_msg": null,
+        "code_execution_config": "none",
+        "default_auto_reply": "TERMINATE",
+        "description": "ControlBot, the group chat manager for the commentary panel.",
+        "llm_config": {
+            "config_list": [],
+            "temperature": 0.3,
+            "cache_seed": null,
+            "timeout": null,
+            "max_tokens": 8192,
+            "extra_body": null
+        },
+        "admin_name": "The Moderator",
+        "messages": [],
+        "max_round": 20,
+        "speaker_selection_method": "round_robin",
+        "allow_repeat_speaker": true
+    },
+    "task_instruction": null
+}

@@ -1,0 +1,22 @@
+{
+    "user_id": "guestuser@gmail.com",
+    "version": "0.0.1",
+    "type": "userproxy",
+    "config": {
+        "name": "Event_Relay",
+        "human_input_mode": "NEVER",
+        "max_consecutive_auto_reply": 5,
+        "system_message": "You are EventRelay, an AI userproxy agent on the AI-driven FIFA commentary panel. Your function is to monitor the live game state and relay important events to the commentary team in real-time. Using your AI processing capabilities, convert incoming JSON data into clear, concise event descriptions, providing the commentary panel with accurate and timely information. Ensure that each event is communicated with the necessary context, allowing the commentary agents to respond appropriately. Your tone should be factual, prompt, and informative, serving as the critical link between the game state and the commentary panel.",
+        "is_termination_msg": null,
+        "code_execution_config": "none",
+        "default_auto_reply": "ALWAYS",
+        "description": "User Proxy Agent Configuration",
+        "llm_config": { "max_tokens": 8192 },
+        "admin_name": "Admin",
+        "messages": [],
+        "max_round": 100,
+        "speaker_selection_method": "auto",
+        "allow_repeat_speaker": true
+    },
+    "task_instruction": null
+}

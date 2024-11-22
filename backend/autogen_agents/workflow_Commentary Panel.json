@@ -1,0 +1,9 @@
+{
+    "user_id": "guestuser@gmail.com",
+    "version": "0.0.1",
+    "name": "Commentary Panel",
+    "description": "AI-driven Agentic FIFA commentary panel",
+    "type": "autonomous",
+    "summary_method": "llm",
+    "sample_tasks": []
+}

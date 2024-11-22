@@ -38,7 +38,7 @@ const StreamingMessage = ({ text, role, speed = 50 }) => {
     return (
         <div
             className={`max-w-[100%] rounded-lg p-3 ${
-                role === 1 ? "bg-green-500" : "bg-red-500"
+                role === "James_Jimmy_Carter" ? "bg-blue-500" : "bg-green-500"
             } text-white`}
         >
             {displayedText}
@@ -49,7 +49,7 @@ const StreamingMessage = ({ text, role, speed = 50 }) => {
 
 StreamingMessage.propTypes = {
     text: PropTypes.string.isRequired,
-    role: PropTypes.number.isRequired,
+    role: PropTypes.string.isRequired,
     speed: PropTypes.number,
 };
 

@@ -16,6 +16,7 @@ const Playground = () => {
     const speechQueue = useRef([]);
     const messageQueue = useRef([]);
     const isProcessingQueue = useRef(false);
+    const audio = useRef(null);
 
     const [formData, setFormData] = useState({
         eventType: "None",
@@ -29,12 +30,12 @@ const Playground = () => {
         result: "",
     });
 
-    const [team1Stats] = useState({
+    const [team1Stats, setTeam1Stats] = useState({
         goals: 0,
         redCards: 0,
         yellowCards: 0,
     });
-    const [team2Stats] = useState({
+    const [team2Stats, setTeam2Stats] = useState({
         goals: 0,
         redCards: 0,
         yellowCards: 0,
@@ -159,6 +160,7 @@ const Playground = () => {
                 }
                 return;
             }
+
             addToSpeechQueue(data.chunk, data.commentator);
 
             addToMessageQueue(data.chunk, data.commentator);
@@ -259,13 +261,30 @@ const Playground = () => {
 
             // Set voice properties
             const voices = speechSynthesis.getVoices();
-            const selectedVoice = voices[commentator - 1] || voices[0];
+            let selectedVoice;
+            if (commentator == "James_Jimmy_Carter") {
+                selectedVoice = voices[1] || voices[0];
+            } else {
+                selectedVoice = voices[0] || voices[1];
+            }
             utterance.voice = selectedVoice;
             utterance.pitch = 2; // You can adjust the pitch
             utterance.rate = 1.5; // You can adjust the rate
 
-            utterance.onstart = () => setIsSpeaking(true);
+            utterance.onstart = () => {
+                // if (!audio.current) {
+                //     audio.current = new Audio("/crowd.mp3");
+                //     audio.current.volume = 0.5;
+                //     audio.current.loop = true;
+                //     audio.current.play();
+                // }
+                setIsSpeaking(true);
+            };
             utterance.onend = () => {
+                // if (audio.current) {
+                //     audio.current.pause();
+                //     audio.current = null;
+                // }
                 setIsSpeaking(false);
                 currentUtterance.current = null;
                 messageQueue.current.shift();
@@ -334,13 +353,46 @@ const Playground = () => {
 
         const formattedMessage = JSON.stringify(formData);
 
-        setMessages((prev) => [
-            ...prev,
-            {
-                text: formattedMessage,
-                role: "user",
-            },
-        ]);
+        // Update team stats based on the event type
+        if (formData.eventType === "Goal") {
+            if (formData.majorPlayer1 !== "None") {
+                setTeam1Stats((prev) => ({
+                    ...prev,
+                    goals: prev.goals + 1,
+                }));
+            } else if (formData.majorPlayer2 !== "None") {
+                setTeam2Stats((prev) => ({
+                    ...prev,
+                    goals: prev.goals + 1,
+                }));
+            }
+        } else if (formData.eventType === "Card") {
+            if (formData.cardType === "Red") {
+                if (formData.cardGivenTo === "Home Team Player") {
+                    setTeam1Stats((prev) => ({
+                        ...prev,
+                        redCards: prev.redCards + 1,
+                    }));
+                } else if (formData.cardGivenTo === "Away Team Player") {
+                    setTeam2Stats((prev) => ({
+                        ...prev,
+                        redCards: prev.redCards + 1,
+                    }));
+                }
+            } else if (formData.cardType === "Yellow") {
+                if (formData.cardGivenTo === "Home Team Player") {
+                    setTeam1Stats((prev) => ({
+                        ...prev,
+                        yellowCards: prev.yellowCards + 1,
+                    }));
+                } else if (formData.cardGivenTo === "Away Team Player") {
+                    setTeam2Stats((prev) => ({
+                        ...prev,
+                        yellowCards: prev.yellowCards + 1,
+                    }));
+                }
+            }
+        }
 
         socket.emit(
             "llm_request",
@@ -399,20 +451,15 @@ const Playground = () => {
                                 {messages.map((message, index) => (
                                     <div
                                         key={index}
-                                        className={`flex ${
-                                            message.role === "user"
-                                                ? "justify-end"
-                                                : "justify-start"
-                                        }`}
+                                        className={`flex justify-start`}
                                     >
                                         <div
                                             className={
                                                 "max-w-[80%] rounded-lg p-3 " +
-                                                (message.role === "user"
+                                                (message.role ===
+                                                "James_Jimmy_Carter"
                                                     ? "bg-blue-500 text-white"
-                                                    : message.role == "1"
-                                                    ? "bg-green-500 text-white"
-                                                    : "bg-red-500 text-white")
+                                                    : "bg-green-500 text-white")
                                             }
                                         >
                                             {message.role === "user" ? (

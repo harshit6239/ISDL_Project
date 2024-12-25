@@ -28,7 +28,7 @@ export default function LandingPage() {
                     <div>Harshit Manchanda</div>
                     <div>22UCS087</div>
                 </div>
-                <div className="flex w-full justify-between gap-8">
+                {/* <div className="flex w-full justify-between gap-8">
                     <div>Rishabh Jain</div>
                     <div>22UCS165</div>
                 </div>
@@ -43,7 +43,7 @@ export default function LandingPage() {
                 <div className="flex w-full justify-between gap-8 ">
                     <div>Suryansh Chauhan</div>
                     <div>22UCS214</div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

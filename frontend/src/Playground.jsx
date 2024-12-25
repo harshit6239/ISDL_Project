@@ -16,7 +16,6 @@ const Playground = () => {
     const speechQueue = useRef([]);
     const messageQueue = useRef([]);
     const isProcessingQueue = useRef(false);
-    const audio = useRef(null);
 
     const [formData, setFormData] = useState({
         eventType: "None",
@@ -134,11 +133,22 @@ const Playground = () => {
         return eventTypeFields[formData.eventType || "None"] || ["eventType"];
     };
 
+    const handleConnect = (socket) => {
+        setIsLoading(true);
+        socket.emit(
+            "llm_request",
+            JSON.stringify({
+                prompt: "Start match between real madrid and fc barcelona",
+            })
+        );
+    };
+
     // Initialize socket connection
     useEffect(() => {
         const newSocket = io("http://localhost:5000");
 
         newSocket.on("connect", () => {
+            handleConnect(newSocket);
             console.log("Connected to WebSocket server");
         });
 

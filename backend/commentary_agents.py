@@ -3,10 +3,10 @@ from autogen import AssistantAgent, UserProxyAgent
 import json
 import google.generativeai as genai
 
-# Configure Gemini API (you'll need to set your API key)
-genai.configure(api_key="AIzaSyDqVpgIl-g6umJSqJwIkJyWn0Lz4O1TWkM")
+# Configure API (you'll need to set your API key)
+genai.configure(api_key="API-KEY") # Set your API key here
 
-class GeminiAgent(AssistantAgent):
+class Agent(AssistantAgent):
     def __init__(self, name, system_message, **kwargs):
         # Modify the config to work with Autogen's expectations
         config = {
@@ -14,7 +14,7 @@ class GeminiAgent(AssistantAgent):
                 "model": "gemini-1.5-flash",
                 "api_type": "google",
                 "base_url": None,
-                "api_key": "AIzaSyDqVpgIl-g6umJSqJwIkJyWn0Lz4O1TWkM"
+                "api_key": "API-KEY" # Set your API key here
             }],
             "temperature": kwargs.get('temperature', 0.5),
             "max_tokens": 8192
@@ -33,17 +33,23 @@ def create_commentary_panel():
     
     with open('./autogen_agents/agent_Mike_Reynolds.json', 'r') as f:
         mike_config = json.load(f)
+    
+    with open('./autogen_agents/agent_Event_Relay.json', 'r') as f:
+        event_relay_config = json.load(f)
 
-    # Create Gemini-powered commentary agents
-    jimmy = GeminiAgent(
+    # Create commentary agents
+    jimmy = Agent(
         **jimmy_config['config']
     )
 
-    mike = GeminiAgent(
+    mike = Agent(
         **mike_config['config']
     )
 
     # Create a user proxy to mediate event relay
+    # event_relay = UserProxyAgent(
+    #     **event_relay_config['config']
+    # )
     event_relay = UserProxyAgent(
         name="Event_Relay",
         code_execution_config={"use_docker": False},
